@@ -19,19 +19,11 @@ A = {1, 4, 6, 8}, T = 3, K = 3, return {4, 1, 6}
 public class Solution {
   public int[] kClosest(int[] array, int target, int k) {
     if (array == null || array.length == 0 || k == 0) return new int[0]; 
-    int pivot = findClosest(array, target);
+    int smallEqualIndex = findSmallerEqual(array, target);
     int[] result = new int[k];
-    int left = pivot, right = pivot;
+    int left = smallEqualIndex, right = smallEqualIndex + 1;
     for (int i = 0; i < k; i++) {
-      if (i == 0) {
-        result[i] = array[pivot];
-        left--;
-        right++;
-      } else if (left < 0) {
-        result[i] = array[right++];
-      } else if (right > array.length - 1) {
-        result[i] = array[left--];
-      } else if (array[right] - target > target - array[left]) {
+      if (right > array.length - 1 || left >= 0 && array[right] - target > target - array[left]) {
         result[i] = array[left--];
       } else {
         result[i] = array[right++];
@@ -41,18 +33,18 @@ public class Solution {
   }
   
   //return the index of the element closest to target
-  private int findClosest(int[] array, int target) {
+  private int findSmallerEqual(int[] array, int target) {
     int left = 0, right = array.length - 1;
     while (left < right - 1) {
       int mid = left + (right - left) / 2;
       if (array[mid] == target) {
         return mid;
       } else if (array[mid] > target) {
-        right = mid;
+        right = mid - 1;
       } else {
         left = mid;
       }
     }
-    return target - array[left] < array[right] - target ? left : right;
+    return array[right] <= target ? right : (array[left] <= target ? left :-1);
   }
 }
