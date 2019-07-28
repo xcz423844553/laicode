@@ -15,13 +15,12 @@ public class Solution {
   public String replace(String input, String source, String target) {
     char[] array = input.toCharArray();
     if (target.length() > source.length()) {
-      replaceLong(array, source, target);
+      return new String(replaceLong(array, source, target));
     } else {
-      replaceShort(array, source, target);
+      return replaceShort(array, source, target);
     }
-    return new String(array);
   }
-  private void replaceLong(char[] array, String source, String target) {
+  private char[] replaceLong(char[] array, String source, String target) {
     int count = 0;
     for (int i = 0; i < array.length; i++) {
       if (isSubstring(array, i, source)) {
@@ -40,8 +39,9 @@ public class Solution {
         newArray[slow++] = array[fast];
       } 
     }
+    return newArray;
   }
-  private void replaceShort(char[] array, String source, String target) {
+  private String replaceShort(char[] array, String source, String target) {
     int slow = 0;
     for (int fast = 0; fast < array.length; fast++) {
       if (isSubstring(array, fast, source)) {
@@ -52,6 +52,7 @@ public class Solution {
         array[slow++] = array[fast];
       }
     }
+    return new String(array, 0, slow);
   }
   private boolean isSubstring(char[] array, int index, String source) {
     for (int i = 0; i < source.length(); i++) {
@@ -68,3 +69,4 @@ public class Solution {
     return;
   }
 }
+
