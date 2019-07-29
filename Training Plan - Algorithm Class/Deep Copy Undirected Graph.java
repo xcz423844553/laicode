@@ -16,6 +16,8 @@ The given graph is not null
 *   }
 * }
 */
+
+//Solution 1
 public class Solution {
   public List<GraphNode> copy(List<GraphNode> graph) {
     List<GraphNode> newGraph = new ArrayList<>();
@@ -43,5 +45,30 @@ public class Solution {
       }
     }
     return newGraph;
+  }
+}
+
+//Solution 2
+public class Solution {
+  public List<GraphNode> copy(List<GraphNode> graph) {
+    List<GraphNode> newGraph = new ArrayList<>();
+    Map<GraphNode, GraphNode> map = new HashMap<>();
+    if (graph == null) return newGraph;
+    for (GraphNode n : graph) {
+      newGraph.add(cloneNode(n, map));
+    }
+    return newGraph;
+  }
+  private GraphNode cloneNode(GraphNode n, Map<GraphNode, GraphNode> map) {
+    if (!map.containsKey(n)) {
+      map.put(n, new GraphNode(n.key));
+      for (GraphNode nei : n.neighbors) {
+        if (!map.containsKey(nei)) {
+          cloneNode(nei, map);
+        }
+        map.get(n).neighbors.add(map.get(nei));
+      }
+    }
+    return map.get(n);
   }
 }
