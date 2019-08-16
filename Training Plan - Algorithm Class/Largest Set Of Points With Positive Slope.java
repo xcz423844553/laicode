@@ -21,6 +21,8 @@ Examples
 *   }
 * }
 */
+
+// Solution 1
 public class Solution {
   public int largest(Point[] points) {
     if (points == null || points.length == 0) return 0;
@@ -60,5 +62,62 @@ public class Solution {
     Point temp = points[i1];
     points[i1] = points[i2];
     points[i2] = temp;
+  }
+}
+
+// Solution 2
+public class Solution {
+  public int largest(Point[] points) {
+    if (points.length < 2) return 0;
+    quickSort(points, 0, points.length - 1);
+    int[] refineY = new int[points.length];
+    int range = 0;
+    for (int i = 0; i < points.length; i++) {
+      int tarY = points[i].y;
+      if (range == 0 || tarY > refineY[range - 1]) {
+        refineY[range++] = tarY;
+      } else {
+        int index = binarySearchSmallestLargerOrEqual(refineY, range, tarY);
+        refineY[index] = tarY;
+      }
+    }
+    return range == 1? 0 : range;
+  }
+  private int binarySearchSmallestLargerOrEqual(int[] refineY, int range, int tarY) {
+    int left = 0;
+    int right = range - 1;
+    while (left < right) {
+      int mid = left + (right - left) / 2;
+      if (refineY[mid] < tarY) {
+        left = mid + 1;
+      } else {
+        right = mid;
+      }
+    }
+    return left;
+  }
+  private void quickSort(Point[] points, int left, int right) {
+    if (left >= right) return;
+    int pivot = left + new Random().nextInt(right - left + 1);
+    int pivotX = points[pivot].x;
+    swap(points, pivot, right);
+    int i = left;
+    int j = right - 1;
+    while (i <= j) {
+      if (points[i].x <= pivotX) {
+        i++;
+      } else {
+        swap(points, i, j--);
+      }
+    }
+    swap(points, i, right);
+    quickSort(points, left, i - 1);
+    quickSort(points, i + 1, right);
+    return;
+  }
+  private void swap(Point[] points, int i1, int i2) {
+    Point p = points[i1];
+    points[i1] = points[i2];
+    points[i2] = p;
   }
 }
