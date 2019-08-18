@@ -17,12 +17,12 @@ public class Solution {
   public String deDup(String input) {
     if (input == null || input.length() == 0) return input;
     int slow = 0;
-    char[] array = new char[input.length];
-    for (int fast = 0; fast < input.length(); fast++) {
-      if (slow < 2 || input.charAt(slow - 2) != input.charAt(fast)) {
+    char[] array = input.toCharArray();
+    for (int fast = 0; fast < array.length; fast++) {
+      if (slow < 2 || array[slow - 2] != array[fast]) {
         array[slow++] = array[fast];
       }
     }
-    return new String(array);
+    return new String(array, 0, slow);
   }
 }
