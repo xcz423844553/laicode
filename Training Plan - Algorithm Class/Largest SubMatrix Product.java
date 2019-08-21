@@ -31,6 +31,7 @@ public class Solution {
           prod[k] = prod[k] * matrix[j][k];
         }
         double max = prod[0];
+        largest = Math.max(largest, max);
         double min = prod[0];
         for (int z = 1; z < col; z++) {
           double temp = max;
@@ -43,3 +44,4 @@ public class Solution {
     return largest;
   }
 }
+
