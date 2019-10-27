@@ -19,6 +19,7 @@ public class Solution {
     while (left < right) {
       int sum = array[left] + array[right];
       if (Math.abs(sum - target) < diff) {
+        diff = Math.abs(sum - target);
         res[0] = array[left];
         res[1] = array[right];
       }
@@ -27,7 +28,7 @@ public class Solution {
       } else if (sum < target) {
         left++;
       } else {
-        right++;
+        right--;
       }
     }
     return Arrays.asList(res);
