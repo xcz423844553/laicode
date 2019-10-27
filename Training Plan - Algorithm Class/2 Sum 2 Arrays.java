@@ -17,6 +17,8 @@ public class Solution {
     Arrays.sort(b);
     boolean[][] visited = new boolean[a.length][b.length];
     Queue<Pair> q = new LinkedList<>();
+    q.offer(new Pair(0, 0));
+    visited[0][0] = true;
     while (!q.isEmpty()) {
       Pair p = q.poll();
       int sum = a[p.x] + b[p.y];
@@ -31,8 +33,6 @@ public class Solution {
           q.offer(new Pair(p.x, p.y + 1));
           visited[p.x][p.y + 1] = true;
         }
-      } else {
-        return false;
       }
     }
     return false;
@@ -46,3 +46,4 @@ public class Solution {
     }
   }
 }
+
